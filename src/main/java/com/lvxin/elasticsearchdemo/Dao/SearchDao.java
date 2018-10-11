@@ -5,6 +5,7 @@ import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,13 +37,18 @@ public class SearchDao {
     }
 
     public String  matchContent(String index,String type,String name,String text){
+
+        QueryBuilder queryBuilder=QueryBuilders.matchPhraseQuery(name,text);
+
         SearchResponse response=client.prepareSearch(index)
                 .setTypes(type)
                 .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
-                .setQuery(QueryBuilders.termQuery(name,text))
-                .get();
+                .setQuery(queryBuilder)
+                .execute()
+                .actionGet();
+//                .setFrom(0).setSize(60).setExplain(true)
         logger.info("Search response staus:::",response.status());
-        logger.info("Search response toString :",response.toString());
+        System.out.println(response.toString());
         return response.toString();
     }
     //多个查询

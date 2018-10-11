@@ -1,28 +1,23 @@
-package com.lvxin.elasticsearchdemo.Dao;
+package com.lvxin.elasticsearchdemo.Service;
 
+import com.lvxin.elasticsearchdemo.Service.impl.FullTextQueriesImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
 
 /**
  * Created by lvxin
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class SearchDaoTest {
-
-    private final Logger logger=LoggerFactory.getLogger(SearchDaoTest.class);
-
+public class FullTextQueriesImplTest {
     @Autowired
-    SearchDao searchDao;
+    FullTextQueriesImpl fullTextQueriesImpl;
 
     @Test
-    public void searchTest(){
-        searchDao.matchContent("news","happy","标题","little priness");
+    public void test(){
+        fullTextQueriesImpl.queryStringQuery("作者","卡耐");
     }
 }

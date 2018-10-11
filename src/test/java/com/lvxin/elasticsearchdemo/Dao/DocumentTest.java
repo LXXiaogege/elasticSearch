@@ -25,12 +25,12 @@ public class DocumentTest {
 
     @Test
     public void documentTest(){
-        News news1=new News("little priness","test","I don't konw");
+        News news1=new News("t","test","I don't konw");
         News news2=new News("人性的弱点","与人交流","卡耐基");
         String data1= JSON.toJSONString(news1);
         String data2=JSON.toJSONString(news2);
         documentDao.addDate(data1,"news","happy","3");
-        documentDao.addDate(data2,"news","happy","4");
+//        documentDao.addDate(data2,"news","happy","4");
 //        documentDao.UpdateIndexById(data2,"news","happy","1");
 //        documentDao.DeleteIndex("aa");
         documentDao.GetIndexById("news","happy","1");
