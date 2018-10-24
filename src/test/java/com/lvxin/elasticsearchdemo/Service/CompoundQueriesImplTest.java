@@ -1,28 +1,23 @@
-package com.lvxin.elasticsearchdemo.Dao;
+package com.lvxin.elasticsearchdemo.Service;
 
+import com.lvxin.elasticsearchdemo.Service.impl.CompoundQueriesImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
 
 /**
  * Created by lvxin
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class SearchDaoTest {
-
-    private final Logger logger=LoggerFactory.getLogger(SearchDaoTest.class);
-
+public class CompoundQueriesImplTest {
     @Autowired
-    SearchDao searchDao;
+    CompoundQueriesImpl compoundQueriesImpl;
 
     @Test
-    public void searchTest(){
-        searchDao.matchAll();
+    public void test(){
+        compoundQueriesImpl.boolQuery("content","resolution");
     }
 }

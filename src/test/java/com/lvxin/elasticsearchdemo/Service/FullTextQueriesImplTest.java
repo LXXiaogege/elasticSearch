@@ -18,6 +18,6 @@ public class FullTextQueriesImplTest {
 
     @Test
     public void test(){
-        fullTextQueriesImpl.queryStringQuery("作者","卡耐");
+        fullTextQueriesImpl.simpleQueryStringQuery("content","轻度污染");
     }
 }

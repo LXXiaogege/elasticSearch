@@ -1,6 +1,9 @@
 package com.lvxin.elasticsearchdemo.domain;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
+
+import java.util.Date;
 
 /**
  * Created by lvxin
@@ -8,14 +11,28 @@ import com.alibaba.fastjson.annotation.JSONField;
 //新闻实体
 public class News {
 
-    @JSONField(name="标题")
+    @JSONField(name="title")
     private String title;
 
-    @JSONField(name = "内容")
+    @JSONField(name = "content")
     private String content;
 
-    @JSONField(name = "作者")
+    @JSONField(name = "author")
     private String author;
+
+    @JSONField(name="pubtime")
+    private Date pubtime;
+
+    @JSONField(name="source")
+    private String source;
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
 
     public String getTitle() {
         return title;
@@ -23,6 +40,14 @@ public class News {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Date getPubtime() {
+        return pubtime;
+    }
+
+    public void setPubtime(Date pubtime) {
+        this.pubtime = pubtime;
     }
 
     public String getContent() {
@@ -41,13 +66,17 @@ public class News {
         this.author = author;
     }
 
-    public News(String title, String content, String author) {
-
+    public News(String title, String content, String author, Date pubtime, String source) {
         this.title = title;
         this.content = content;
         this.author = author;
+        this.pubtime = pubtime;
+        this.source = source;
     }
 
+    public void toJson(News news){
+        String json= JSON.toJSONString(news);
+    }
 //    @Override
 //    public String toString() {
 //        final StringBuffer sb = new StringBuffer("{");

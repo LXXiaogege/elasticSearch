@@ -1,7 +1,6 @@
 package com.lvxin.elasticsearchdemo.Dao;
 
 
-
 import org.elasticsearch.action.ActionListener;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
@@ -54,8 +53,9 @@ public class DocumentDao {
             logger.info("查询失败！ ");
         }
 
-        GetResponse getResponse = client.prepareGet(index, type, id).execute().actionGet();
-        System.out.println(getResponse.getSourceAsString());
+        GetResponse getResponse = client.prepareGet(index, type, id).get();
+        //返回指定字段- ‘
+        System.out.println(getResponse.getSource().get("内容"));
         return getResponse.getSource();
     }
 
@@ -69,12 +69,12 @@ public class DocumentDao {
     //通过id删除一条数据
     public void DeleteIndexById(String index,String type,String id){
         DeleteResponse deleteResponse = client.prepareDelete(index, type, id).get();
-
     }
 
     //删除整条索引
-    public void DeleteIndex(String index){
+    public boolean DeleteIndex(String index){
         DeleteIndexResponse deleteIndexResponse=client.admin().indices().prepareDelete(index).execute().actionGet();
+        return deleteIndexResponse.isAcknowledged();
     }
 
     //判断索引是否存在
@@ -95,7 +95,8 @@ public class DocumentDao {
         if (id==null){
             id=UUID.randomUUID().toString();
         }
-        IndexResponse indexResponse=client.prepareIndex(index,type,id).setSource(data,XContentType.JSON).get();
+        IndexResponse indexResponse=client.prepareIndex(index,type,id).setSource(data,XContentType.JSON)
+                .get();
         logger.info("addDate  添加数据的状态： ",indexResponse.status().getStatus());
         //返回一个id
         return indexResponse.getId();
@@ -120,7 +121,7 @@ public class DocumentDao {
     }
 
     //多文档查询
-    public void GetMulti(String index,String type,String...ids){
+    public List<String> GetMulti(String index,String type,String...ids){
         List<String> jsonList=new ArrayList<>();
         MultiGetResponse multiGetItemResponses=client.prepareMultiGet().add(index,type,ids).get();//通过多个id的方式
         for (MultiGetItemResponse itemResponse : multiGetItemResponses){ //迭代返回值
@@ -129,5 +130,6 @@ public class DocumentDao {
                 jsonList.add(response.getSourceAsString());//_sourse 字段
             }
         }
+        return jsonList;
     }
     }

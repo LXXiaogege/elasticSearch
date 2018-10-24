@@ -36,9 +36,9 @@ public class FullTextQueriesImpl implements FullTextQueries {
     }
 
     @Override
-    public SearchResponse matchPhraseQuery(String index, String type, String name, String text) {
+    public SearchResponse matchPhraseQuery(String index, String type, String name, String text,int n) {
         //slop(n)表示两个词之间可以隔着n个词
-        QueryBuilder queryBuilder=QueryBuilders.matchPhraseQuery(name,text).slop(1);
+        QueryBuilder queryBuilder=QueryBuilders.matchPhraseQuery(name,text).slop(n);
         SearchResponse response=client.prepareSearch(index)
                 .setTypes(type)
                 .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
@@ -50,9 +50,9 @@ public class FullTextQueriesImpl implements FullTextQueries {
 
 
     @Override
-    public SearchResponse multiMatchQuery(String name,String...text) {
+    public SearchResponse multiMatchQuery(String text,String...name) {
         //  .operator
-        QueryBuilder queryBuilder=QueryBuilders.multiMatchQuery(name,text);
+        QueryBuilder queryBuilder=QueryBuilders.multiMatchQuery(text,name);
         SearchResponse response=client.prepareSearch()
                 .setQuery(queryBuilder)
                 .get();
@@ -83,12 +83,22 @@ public class FullTextQueriesImpl implements FullTextQueries {
     }
 
     @Override
-    public SearchResponse simpleQueryStringQuery(String field,String text) {
-        QueryBuilder queryBuilder=QueryBuilders.simpleQueryStringQuery(text).field(field);
+    public SearchResponse simpleQueryStringQuery(String name,String text) {
+        QueryBuilder queryBuilder=QueryBuilders.simpleQueryStringQuery(text).field(name);
         SearchResponse response=client.prepareSearch()
                 .setQuery(queryBuilder)
                 .get();
         System.out.println(response.toString());
+        return response;
+    }
+
+    //查询多个字段，查询不同内容0
+    public SearchResponse contentTitleQuery(String name1,String name2,String text1,String text2){
+        QueryBuilder qb1=QueryBuilders.matchPhraseQuery(name1,text1);
+        QueryBuilder qb2=QueryBuilders.matchPhraseQuery(name2,text2);
+        QueryBuilder qb=QueryBuilders.boolQuery().should(qb1).should(qb2);
+        SearchResponse response=client.prepareSearch()
+                .setQuery(qb).get();
         return response;
     }
 }

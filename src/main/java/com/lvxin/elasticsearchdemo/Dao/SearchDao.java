@@ -7,6 +7,8 @@ import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +28,15 @@ public class SearchDao {
 
     //查询所有
     public void matchAll(){
-        SearchResponse  response=client.prepareSearch().get();
-        System.out.println(response.toString());
+        SearchResponse  response=client.prepareSearch("news")
+//                .highlighter()
+                .get();
+
+        //输出指定字段
+        SearchHits hits=response.getHits();
+        for (SearchHit hit:hits){
+            System.out.println(hit.field("content"));
+        }
     }
     //查询索引  (可多个)
     public String matchIndex(String...indexs){

@@ -2,59 +2,87 @@ package com.lvxin.elasticsearchdemo.Service.impl;
 
 import com.lvxin.elasticsearchdemo.Service.TermQueries;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by lvxin
  */
+@Service
 public class TermQueriesImpl implements TermQueries {
 
+    @Autowired
+    TransportClient client;
+
     @Override
-    public SearchResponse Term_Query() {
+    public SearchResponse termQuery(String name,Object object) {
+        QueryBuilder queryBuilder=QueryBuilders.termQuery(name,object);
+        SearchResponse response=client.prepareSearch("index")
+                .setQuery(queryBuilder)
+                .get();
+        System.out.println(response.toString());
+        return response;
+    }
+
+    @Override
+    public SearchResponse termsQuery(String name,Object...object) {
+        QueryBuilder queryBuilder=QueryBuilders.termsQuery(name,object);
+        SearchResponse response=client.prepareSearch()
+                .setQuery(queryBuilder)
+                .get();
+        System.out.println(response.toString());
+        return response;
+    }
+
+    @Override
+    public SearchResponse rangeQuery(String name,Object ob1,Object ob2) {
+        QueryBuilder queryBuilder=QueryBuilders.rangeQuery(name)
+                .from(ob1)
+                .to(ob2)
+                .includeLower(true)  //包含最低值
+                .includeUpper(false); //不包含最大值
+        SearchResponse response=client.prepareSearch()
+                .setQuery(queryBuilder)
+                .get();
+        System.out.println(response.toString());
+        return response;
+    }
+
+    @Override
+    public SearchResponse existsQuery() {
         return null;
     }
 
     @Override
-    public SearchResponse Terms_Query() {
+    public SearchResponse prefixQuery() {
         return null;
     }
 
     @Override
-    public SearchResponse Range_Query() {
+    public SearchResponse wildCardQuery() {
         return null;
     }
 
     @Override
-    public SearchResponse Exists_Query() {
+    public SearchResponse regexpQuery() {
         return null;
     }
 
     @Override
-    public SearchResponse Prefix_Query() {
+    public SearchResponse fuzzyQuery() {
         return null;
     }
 
     @Override
-    public SearchResponse WildCard_Query() {
+    public SearchResponse typeQuery() {
         return null;
     }
 
     @Override
-    public SearchResponse Regexp_Query() {
-        return null;
-    }
-
-    @Override
-    public SearchResponse Fuzzy_Query() {
-        return null;
-    }
-
-    @Override
-    public SearchResponse Type_Query() {
-        return null;
-    }
-
-    @Override
-    public SearchResponse Ids_Query() {
+    public SearchResponse idsQuery() {
         return null;
     }
 }

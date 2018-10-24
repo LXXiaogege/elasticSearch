@@ -152,7 +152,7 @@ public class ESController {
         List<Map<String,Object>> result=new ArrayList<Map<String,Object>>();
 
         for(SearchHit hit:response.getHits()){
-            result.add(hit.getSource());
+            result.add(hit.getSourceAsMap());
         }
 
         return new ResponseEntity<>(result,HttpStatus.OK);
