@@ -17,13 +17,13 @@ import java.net.UnknownHostException;
  */
 @Configuration
 public class ESConfig {
-    @Value("elasticsearch")
+    @Value("zut-es-cluster")
     private String clusterName;
 
-    @Value("127.0.0.1")
+    @Value("202.196.37.169:18080")
     private String hostName;
 
-    @Value("9300")
+    @Value("19300")
     private String port;
 
     @Value("5")
@@ -39,7 +39,7 @@ public class ESConfig {
     public TransportClient client() throws UnknownHostException {
         Settings settings = Settings.builder()
                 .put("cluster.name", clusterName)
-                .put("thread_pool.search.size", Integer.parseInt(poolSize))
+//                .put("thread_pool.search.size", Integer.parseInt(poolSize))
 //                .put("client.transport.sniff", true)
 //                .put("client.transport.ignore_cluster_name",true)    //设置为true忽略已连接节点的群集名称验证。
 //                .put("client.transport.ping_timeout",Integer.parseInt(pingTimeout))               //等待节点ping响应的时间。默认为5s。

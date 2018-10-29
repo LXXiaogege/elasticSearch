@@ -32,7 +32,6 @@ public class CompoundQueriesImpl implements CompoundQueries {
         SearchHits hits=response.getHits();
         for (SearchHit hit:hits){
             hit.field("content").toString();
-            System.out.println(hit.field("content").toString());
         }
 //        AnalyzeRequest analyzeRequest=new AnalyzeRequest()
 //                .text(content)
