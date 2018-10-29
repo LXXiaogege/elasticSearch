@@ -20,7 +20,7 @@ public class ESConfig {
     @Value("zut-es-cluster")
     private String clusterName;
 
-    @Value("202.196.37.169:18080")
+    @Value("202.196.37.169")
     private String hostName;
 
     @Value("19300")
