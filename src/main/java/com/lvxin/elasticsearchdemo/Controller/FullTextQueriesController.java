@@ -8,7 +8,7 @@ import org.elasticsearch.search.SearchHits;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,8 +24,9 @@ public class FullTextQueriesController {
     @Autowired
     FullTextQueriesImpl ftqi;
 
-    @PostMapping("/str")
-    public ResponseEntity<?> queryString(@RequestParam(name = "name")String name, @RequestParam(name="text")String  text){
+    @GetMapping
+    public ResponseEntity<?> queryString(@RequestParam(name = "name")String name,
+                                         @RequestParam(name="text")String  text){
         if (name==null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

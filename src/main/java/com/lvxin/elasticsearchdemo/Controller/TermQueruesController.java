@@ -8,7 +8,7 @@ import org.elasticsearch.search.SearchHits;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,7 +23,7 @@ public class TermQueruesController {
     @Autowired
     TermQueriesImpl termQueriesImpl;
 
-    @PostMapping("/term")
+    @GetMapping("/term")
     public ResponseEntity<?> term(@RequestParam(name = "name")String name,@RequestParam(name="text")Object text){
         if (name==null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -38,7 +38,7 @@ public class TermQueruesController {
         return  new ResponseEntity<>(source,HttpStatus.OK);
     }
 
-    @PostMapping("/terms")
+    @GetMapping("/terms")
     public ResponseEntity<?> terms(@RequestParam(name = "name")String name,@RequestParam(name="object")Object...texts){
         if (name==null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -53,7 +53,7 @@ public class TermQueruesController {
         return  new ResponseEntity<>(source,HttpStatus.OK);
     }
 
-    @PostMapping("/range")
+    @GetMapping("/range")
     public ResponseEntity<?> range(@RequestParam(name = "name")String name,@RequestParam(name="lower")Object lower,@RequestParam(name="upper")Object upper){
         if (name==null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
