@@ -18,8 +18,9 @@ public class CompoundQueriesImplTest {
     CompoundQueriesImpl compoundQueriesImpl;
 
     @Test
-    public void test(){
-        SearchResponse response=compoundQueriesImpl.boolQuery("content","中国","洛杉矶","number","6");
+    public void test_bool_noNot(){
+        SearchResponse response=compoundQueriesImpl.boolQuery_noNot("content","中国","2018-11-15");
         System.out.println(response.toString());
     }
+
 }

@@ -20,34 +20,24 @@ public class CompoundQueriesImpl implements CompoundQueries {
     TransportClient client;
 
     @Override
-    public SearchResponse boolQuery(String name, String value,String value_not,String name_filter,String value_filter) {
+    public SearchResponse boolQuery(String field, String value,String value_not,String time_filter) {
         QueryBuilder qb=QueryBuilders.boolQuery()
-                .must(matchPhraseQuery(name,value))
-                .mustNot(matchPhraseQuery(name,value_not))
-                .filter(rangeQuery(name_filter).format(value_filter));
+                .must(matchPhraseQuery(field,value))
+                .mustNot(matchPhraseQuery(field,value_not))
+                .filter(rangeQuery("pubTime").format("yyyy-mm-dd").gte(time_filter));
         SearchResponse response=client.prepareSearch("index")
                 .setQuery(qb)
                 .get();
         return response;
     }
 
-    @Override
-    public SearchResponse boolQueryMult(String name,String value_not,String name_filter,String value_filter,String...value_mult) {
-        QueryBuilder qb=QueryBuilders.boolQuery()
-                .must(multiMatchQuery(name,value_mult))
-                .mustNot(matchPhraseQuery(name,value_not))
-                .filter(rangeQuery(name_filter).format(value_filter));
-        SearchResponse response=client.prepareSearch("index")
-                .setQuery(qb)
-                .get();
-        return response;
-    }
+
 
     @Override
-    public SearchResponse boolQuery_noNot(String name, String value,String value_not,String name_filter,String value_filter) {
+    public SearchResponse boolQuery_noNot(String field, String value,String time_filter) {
         QueryBuilder qb = QueryBuilders.boolQuery()
-                .must(matchPhraseQuery(name, value))
-                .filter(rangeQuery(name_filter).format(value_filter));
+                .must(matchPhraseQuery(field, value))
+                .filter(rangeQuery("pubTime").format("yyyy-mm-dd").gte(time_filter));
         SearchResponse response = client.prepareSearch("index")
                 .setQuery(qb)
                 .get();
