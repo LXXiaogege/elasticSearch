@@ -3,6 +3,7 @@ package com.lvxin.elasticsearchdemo.Service.impl;
 import com.lvxin.elasticsearchdemo.Service.CompoundQueries;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.index.query.Operator;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,30 +21,28 @@ public class CompoundQueriesImpl implements CompoundQueries {
     TransportClient client;
 
     @Override
-    public SearchResponse boolQuery(String field, String value,String value_not,String time_filter) {
-        QueryBuilder qb=QueryBuilders.boolQuery()
-                .must(matchPhraseQuery(field,value))
-                .mustNot(matchPhraseQuery(field,value_not))
-                .filter(rangeQuery("pubTime").format("yyyy-mm-dd").gte(time_filter));
-        SearchResponse response=client.prepareSearch("index")
-                .setQuery(qb)
-                .get();
-        return response;
+    public SearchResponse boolQuery(String field, String value,String value_not,String time_filter,Boolean number) {
+        if (number==false) {
+            QueryBuilder qb = QueryBuilders.boolQuery()
+                    .must(matchQuery(field, value).operator(Operator.AND))
+                    .mustNot(matchQuery(field, value_not))
+                    .filter(rangeQuery("pubTime").format("yyyy-mm-dd").gte(time_filter));
+            SearchResponse response=client.prepareSearch("index")
+                    .setQuery(qb)
+                    .get();
+            return response;
+        }
+        else{
+            QueryBuilder qb = QueryBuilders.boolQuery()
+                    .must(matchQuery(field, value))
+                    .mustNot(matchQuery(field, value_not))
+                    .filter(rangeQuery("pubTime").format("yyyy-mm-dd").gte(time_filter));
+            SearchResponse response=client.prepareSearch("index")
+                    .setQuery(qb)
+                    .get();
+            return response;
+        }
     }
-
-
-
-    @Override
-    public SearchResponse boolQuery_noNot(String field, String value,String time_filter) {
-        QueryBuilder qb = QueryBuilders.boolQuery()
-                .must(matchPhraseQuery(field, value))
-                .filter(rangeQuery("pubTime").format("yyyy-mm-dd").gte(time_filter));
-        SearchResponse response = client.prepareSearch("index")
-                .setQuery(qb)
-                .get();
-        return response;
-    }
-
 //    @Override
 //    public SearchResponse boolQuery(String name,String value) {
 //        QueryBuilder qb=QueryBuilders.boolQuery()

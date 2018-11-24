@@ -19,7 +19,7 @@ public class CompoundQueriesImplTest {
 
     @Test
     public void test_bool_noNot(){
-        SearchResponse response=compoundQueriesImpl.boolQuery_noNot("content","中国","2018-11-15");
+        SearchResponse response=compoundQueriesImpl.boolQuery_noNot("content","中国 唐朝","2015-11-15");
         System.out.println(response.toString());
     }
 
