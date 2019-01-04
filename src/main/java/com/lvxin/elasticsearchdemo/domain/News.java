@@ -74,6 +74,9 @@ public class News {
         this.source = source;
     }
 
+    public News() {
+    }
+
     public void toJson(News news){
         String json= JSON.toJSONString(news);
     }
