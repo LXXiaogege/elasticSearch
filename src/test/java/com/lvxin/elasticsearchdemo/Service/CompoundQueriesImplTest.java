@@ -1,6 +1,7 @@
 package com.lvxin.elasticsearchdemo.Service;
 
 import com.lvxin.elasticsearchdemo.Service.impl.CompoundQueriesImpl;
+import org.elasticsearch.action.search.SearchResponse;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,8 @@ public class CompoundQueriesImplTest {
 
     @Test
     public void test_bool_noNot(){
-//        SearchResponse response=compoundQueriesImpl.boolQuery_noNot("content","中国 唐朝","2015-11-15");
-//        System.out.println(response.toString());
+        SearchResponse response=compoundQueriesImpl.boolQuery("content","中国","","1147020961789",true);
+        System.out.println(response.toString());
     }
 
 }

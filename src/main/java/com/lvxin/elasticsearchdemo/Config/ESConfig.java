@@ -17,13 +17,13 @@ import java.net.UnknownHostException;
  */
 @Configuration
 public class ESConfig {
-    @Value("elasticsearch")
+    @Value("zut-es-cluster")//zut-es-cluster  elasticsearch
     private String clusterName;
 
-    @Value("127.0.0.1")
+    @Value("202.196.37.169")//127.0.0.1  202.196.37.169
     private String hostName;
 
-    @Value("9300")
+    @Value("29300")//9300  29300
     private String port;
 
     @Value("5")

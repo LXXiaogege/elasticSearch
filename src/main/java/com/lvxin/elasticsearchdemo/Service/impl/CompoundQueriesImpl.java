@@ -26,9 +26,11 @@ public class CompoundQueriesImpl implements CompoundQueries {
             QueryBuilder qb = QueryBuilders.boolQuery()
                     .must(matchQuery(field, value).operator(Operator.AND))
                     .mustNot(matchQuery(field, value_not))
-                    .filter(rangeQuery("pubTime").format("yyyy-mm-dd").gte(time_filter));
-            SearchResponse response=client.prepareSearch("index")
+                    .filter(rangeQuery("pubTime").gte(time_filter));
+//                    .filter(rangeQuery("pubTime").format("yyyy-mm-dd").gte(time_filter));
+            SearchResponse response=client.prepareSearch("zutnlp_index_v1")
                     .setQuery(qb)
+                    .setSize(1)   //设置返回数据总数   默认为10
                     .get();
             return response;
         }
@@ -36,9 +38,11 @@ public class CompoundQueriesImpl implements CompoundQueries {
             QueryBuilder qb = QueryBuilders.boolQuery()
                     .must(matchQuery(field, value))
                     .mustNot(matchQuery(field, value_not))
-                    .filter(rangeQuery("pubTime").format("yyyy-mm-dd").gte(time_filter));
-            SearchResponse response=client.prepareSearch("index")
+//                    .filter(rangeQuery("pubTime").format("yyyy-mm-dd").gte(time_filter));
+                    .filter(rangeQuery("pubTime").gte(time_filter));
+            SearchResponse response=client.prepareSearch("zutnlp_index_v1")
                     .setQuery(qb)
+                    .setSize(1)
                     .get();
             return response;
         }
